@@ -1,0 +1,47 @@
+.out {
+  padding: 10px;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.flex-container > div {
+  box-sizing: border-box;
+  flex: 1 1 320px;
+  margin: 10px;
+  padding: 20px 30px;
+  background-color: #f1f1f1;
+}
+
+.left-side p,
+.activities p,
+.destinations p {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.right-side {
+  min-height: 320px;
+  background-position: center;
+  background-size: cover;
+}
+
+.activities,
+.destinations {
+  min-height: 160px;
+}
+
+.addActivityBtn,
+.addDestinationBtn {
+  color: #fff;
+  background-color: rgba(38, 163, 217, 0.75);
+}
+
+.addActivityBtn:hover,
+.addDestinationBtn:hover {
+  color: #fff;
+  background-color: rgba(29, 122, 162, 0.85);
+}
