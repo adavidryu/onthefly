@@ -1,7 +1,11 @@
-# Lab 5
+# Week 5 Lab
 
-![Lab 5](/lab5.gif)
+![Week 5 Lab](/lab5.gif)
 
-# Lab 6
+# Week 6 Lab
 
-![Lab 6](/lab6.gif)
+![Week 6 Lab](/lab6.gif)
+
+# Week 8 Lab
+
+![Week 8 Lab](/lab8.gif)
