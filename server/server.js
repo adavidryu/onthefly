@@ -30,7 +30,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(express.json())
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://client-d337.onrender.com',
     methods: 'GET,POST,PUT,DELETE,PATCH',
     credentials: true
 }))

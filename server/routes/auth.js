@@ -36,13 +36,11 @@ router.get(
     })
 )
 
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'
-
 router.get(
     '/github/callback',
     passport.authenticate('github', {
-        successRedirect: CLIENT_URL,
-        failureRedirect: `${CLIENT_URL}/`,
+        successRedirect: `https://client-d337.onrender.com`,
+        failureRedirect: `https://client-d337.onrender.com/destinations`,
     })
 )
 
