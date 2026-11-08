@@ -39,7 +39,7 @@ router.get(
 router.get(
     '/github/callback',
     passport.authenticate('github', {
-        successRedirect: `https://client-d337.onrender.com/destinations`,
+        successRedirect: `https://client-d337.onrender.com`,
         failureRedirect: `https://client-d337.onrender.com`,
     })
 )

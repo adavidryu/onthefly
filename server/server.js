@@ -21,10 +21,15 @@ passport.deserializeUser((user, done) => {
 })
 
 const app = express()
+const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER === 'true'
+if (isProduction) {
+    app.set('trust proxy', 1)
+}
 app.use(session({
     secret: 'codepath',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: isProduction ? { sameSite: 'none', secure: true } : {}
 }))
 app.use(passport.initialize())
 app.use(passport.session())
