@@ -12,13 +12,20 @@ import AddToTrip from './pages/AddToTrip';
 import Login from './pages/Login';
 import Avatar from './components/Avatar';
 
-const API_URL = import.meta.env.PROD ? 'https://server-on0w.onrender.com' : '/api'
+const API_URL = import.meta.env.PROD ? 'https://server-on0w.onrender.com' : ''
 
 const App = () => {
   
   const [trips, setTrips] = useState([]);
   const [destinations, setDestinations] = useState([]);
   const [user, setUser] = useState(null);
+
+  const fetchDestinations = async () => {
+    const response = await fetch(`${API_URL}/api/destinations`);
+    if (!response.ok) throw new Error(`Unable to load destinations (${response.status})`);
+    const data = await response.json();
+    setDestinations(data);
+  }
 
   useEffect(() => {
     const getUser = async () => {
@@ -33,15 +40,9 @@ const App = () => {
       setTrips(data);
     }
 
-    const fetchDestinations = async() => {
-      const response = await fetch(`${API_URL}/api/destinations`);
-      const data = await response.json();
-      setDestinations(data);
-    }
-
     getUser();
-    fetchTrips();
-    fetchDestinations();
+    fetchTrips().catch(console.error);
+    fetchDestinations().catch(console.error);
   }, []);
 
   const logout = async () => {
@@ -77,7 +78,7 @@ const App = () => {
     },
     {
       path:"/destination/new",
-      element: isAuthenticated ? <CreateDestination user={user} api_url={API_URL} /> : login
+      element: isAuthenticated ? <CreateDestination user={user} api_url={API_URL} refreshDestinations={fetchDestinations} /> : login
     },
     {
       path:"/activity/create/:trip_id",

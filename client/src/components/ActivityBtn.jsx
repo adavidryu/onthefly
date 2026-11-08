@@ -4,6 +4,7 @@ import './ActivityBtn.css'
 const ActivityBtn = (props) =>  {
 
   const [num_votes, setNumVotes] = useState(props.num_votes)
+  const [error, setError] = useState('')
 
   const updateCount = async () => {
     const options = {
@@ -14,16 +15,23 @@ const ActivityBtn = (props) =>  {
       body: JSON.stringify({num_votes: num_votes + 1})
     }
 
-    const response = await fetch('/api/activities/' + props.id, options)
-    if (response.ok) {
+    try {
+      const response = await fetch(`${props.api_url}/api/activities/${props.id}`, options)
+      if (!response.ok) throw new Error(`Unable to vote (${response.status})`)
       setNumVotes((num_votes) => num_votes + 1)
+      setError('')
+    } catch (requestError) {
+      setError(requestError.message)
     }
   }
 
   return (
-    <button className='activityBtn' id={props.id} onClick={updateCount}>
-      {props.activity} <br/> {'△ ' + num_votes + ' Upvotes' }
-    </button>
+    <>
+      <button className='activityBtn' id={props.id} onClick={updateCount}>
+        {props.activity} <br/> {'△ ' + num_votes + ' Upvotes' }
+      </button>
+      {error && <p role="alert">{error}</p>}
+    </>
   )
 
 }

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import './CreateTrip.css'
 
-const CreateTrip = () => {
+const CreateTrip = ({ api_url }) => {
 
     const [trip, setTrip] = useState({id: 0, title: "", description: "", img_url: "", num_days: 0, start_date: "", end_date: "", total_cost: 0.0 })
+    const [error, setError] = useState('')
     
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -26,8 +27,13 @@ const CreateTrip = () => {
             body: JSON.stringify(trip)
         }
 
-        await fetch('/api/trips', options);
-        window.location.href = '/'
+        try {
+            const response = await fetch(`${api_url}/api/trips`, options);
+            if (!response.ok) throw new Error(`Unable to create trip (${response.status})`);
+            window.location.href = '/'
+        } catch (requestError) {
+            setError(requestError.message)
+        }
     }
 
 
@@ -65,6 +71,7 @@ const CreateTrip = () => {
                 <br/>
 
                 <input type="submit" value="Submit" onClick={createTrip} />
+                {error && <p role="alert">{error}</p>}
             </form>
         </div>
     )

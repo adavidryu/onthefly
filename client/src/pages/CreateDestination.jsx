@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import './CreateDestination.css'
 
-const CreateDestination = () => {
+const CreateDestination = ({ api_url, refreshDestinations }) => {
 
+    const navigate = useNavigate()
+    const [error, setError] = useState('')
     const [destination, setDestination] = useState({destination: "", description: "", city: "", country: "", img_url: "", flag_img_url: "" })
 
     const handleChange = (event) => {
@@ -26,8 +29,15 @@ const CreateDestination = () => {
             body: JSON.stringify(destination)
         }
 
-        await fetch('/api/destinations', options);
-        window.location.href = '/destinations'
+        try {
+            setError('')
+            const response = await fetch(`${api_url}/api/destinations`, options);
+            if (!response.ok) throw new Error(`Unable to create destination (${response.status})`);
+            await refreshDestinations()
+            navigate('/destinations')
+        } catch (requestError) {
+            setError(requestError.message)
+        }
     }
 
     return (
@@ -60,6 +70,7 @@ const CreateDestination = () => {
                 <br/>
 
                 <input type="submit" value="Submit" onClick={createDestination} />
+                {error && <p role="alert">{error}</p>}
             </form>
         </div>
     )

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router';
 import './CreateActivity.css'
 
-const CreateActivity = () => {
+const CreateActivity = ({ api_url }) => {
 
     const [activity, setActivity] = useState({activity: "" })
     const [error, setError] = useState('')
@@ -31,7 +31,7 @@ const CreateActivity = () => {
         }
 
         try {
-            const response = await fetch('/api/activities/' + trip_id, options);
+            const response = await fetch(`${api_url}/api/activities/${trip_id}`, options);
             if (!response.ok) {
                 throw new Error(`Unable to create activity (${response.status})`);
             }

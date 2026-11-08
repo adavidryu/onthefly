@@ -4,7 +4,7 @@ import ActivityBtn from '../components/ActivityBtn';
 import DestinationBtn from '../components/DestinationBtn';
 import './TripDetails.css';
 
-const TripDetails = ({ data = [] }) => {
+const TripDetails = ({ data = [], api_url }) => {
     const { id } = useParams();
     const [activities, setActivities] = useState([]);
     const [destinations, setDestinations] = useState([]);
@@ -20,7 +20,7 @@ const TripDetails = ({ data = [] }) => {
         let isCurrent = true;
 
         const fetchActivities = async () => {
-            const response = await fetch(`/api/activities/${id}`);
+            const response = await fetch(`${api_url}/api/activities/${id}`);
             if (!response.ok) {
                 throw new Error(`Unable to load activities (${response.status})`);
             }
@@ -29,7 +29,7 @@ const TripDetails = ({ data = [] }) => {
         };
 
         const fetchDestinations = async () => {
-            const response = await fetch(`/api/trip-destinations/destinations/${id}`);
+            const response = await fetch(`${api_url}/api/trip-destinations/destinations/${id}`);
             if (!response.ok) {
                 throw new Error(`Unable to load destinations (${response.status})`);
             }
@@ -45,7 +45,7 @@ const TripDetails = ({ data = [] }) => {
         return () => {
             isCurrent = false;
         };
-    }, [id]);
+    }, [id, api_url]);
 
     if (!trip) {
         return (
@@ -85,6 +85,7 @@ const TripDetails = ({ data = [] }) => {
                                 id={activity.id}
                                 activity={activity.activity}
                                 num_votes={activity.num_votes}
+                                api_url={api_url}
                             />
                         ))
                     ) : <p>No activities added yet.</p>}

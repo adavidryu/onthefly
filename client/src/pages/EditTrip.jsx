@@ -2,10 +2,11 @@ import {useState, useEffect} from 'react';
 import { useParams } from 'react-router';
 import './EditTrip.css'
 
-const EditTrip = ({data}) => {
+const EditTrip = ({data, api_url}) => {
 
     const {id} = useParams();
     const [trip, setTrip] = useState({id: 0, title: "", description: "", img_url: "", num_days: 0, start_date: "", end_date: "", total_cost: 0.0 })
+    const [error, setError] = useState('')
 
     useEffect(() => {
         const result = data.filter(item => item.id === parseInt(id))[0];
@@ -36,8 +37,13 @@ const EditTrip = ({data}) => {
             body: JSON.stringify(trip)
         }
 
-        await fetch('/api/trips/' + id, options);
-        window.location.href = '/'
+        try {
+            const response = await fetch(`${api_url}/api/trips/${id}`, options);
+            if (!response.ok) throw new Error(`Unable to update trip (${response.status})`);
+            window.location.href = '/'
+        } catch (requestError) {
+            setError(requestError.message)
+        }
     }
 
 
@@ -48,8 +54,13 @@ const EditTrip = ({data}) => {
             method: 'DELETE'
         }
 
-        await fetch('/api/trips/' + id, options);
-        window.location.href = '/'
+        try {
+            const response = await fetch(`${api_url}/api/trips/${id}`, options);
+            if (!response.ok) throw new Error(`Unable to delete trip (${response.status})`);
+            window.location.href = '/'
+        } catch (requestError) {
+            setError(requestError.message)
+        }
     }
 
     return (
@@ -87,6 +98,7 @@ const EditTrip = ({data}) => {
 
                 <input type="submit" value="Submit" onClick={updateTrip}/>
                 <button className="deleteButton" onClick={deleteTrip}>Delete</button>
+                {error && <p role="alert">{error}</p>}
             </form>
         </div>
     )
