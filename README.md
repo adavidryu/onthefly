@@ -9,3 +9,8 @@
 # Week 8 Lab
 
 ![Week 8 Lab](/lab8.gif)
+
+
+# Week 9 Lab
+
+![Week 9 Lab](/lab9.gif)
